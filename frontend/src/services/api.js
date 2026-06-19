@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const API_BASE = '/api';
-
+const API_BASE = 'https://personal-assistant-version-1-0.onrender.com';
 const api = axios.create({
   baseURL: API_BASE,
   headers: {

@@ -11,7 +11,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://personal-assistant-version-1-0.onrender.com',
         changeOrigin: true,
       },
     },

@@ -68,8 +68,8 @@ cd backend
 uvicorn app.main:app --reload --port 8000
 ```
 
-The API will be available at `http://localhost:8000`
-API docs at `http://localhost:8000/docs`
+The API will be available at `https://personal-assistant-version-1-0.onrender.com`
+API docs at `https://personal-assistant-version-1-0.onrender.com/docs`
 
 ### 3. Setup & Start Frontend
 

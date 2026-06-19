@@ -22,4 +22,4 @@ start "Frontend Server" cmd /c "cd frontend && npm install && npm run dev"
 
 echo Both servers are starting in separate windows.
 echo Frontend will be available at http://localhost:5173
-echo Backend API available at http://localhost:8000
+echo Backend API available at https://personal-assistant-version-1-0.onrender.com
