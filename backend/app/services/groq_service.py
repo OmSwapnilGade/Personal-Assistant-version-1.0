@@ -1,4 +1,5 @@
-import google.generativeai as genai
+import os
+from groq import AsyncGroq
 from ..config import settings
 
 
@@ -17,25 +18,21 @@ from ..config import settings
 # - Be encouraging and educational in tone"""
 
 
-class GeminiService:
-    """Wrapper around Google Gemini API for AI chat functionality."""
+class GroqService:
+    """Wrapper around Groq API for AI chat functionality."""
 
     def __init__(self):
-        self.model = None
+        self.client = None
         self._initialized = False
 
     def _ensure_initialized(self):
-        """Lazy initialization of Gemini client."""
+        """Lazy initialization of Groq client."""
         if not self._initialized:
-            if not settings.gemini_api_key:
+            if not settings.groq_api_key:
                 raise ValueError(
-                    "GEMINI_API_KEY not set. Add it to your .env file."
+                    "GROQ_API_KEY not set. Add it to your .env file."
                 )
-            genai.configure(api_key=settings.gemini_api_key)
-            self.model = genai.GenerativeModel(
-                model_name=settings.gemini_model,
-                system_instruction=SYSTEM_PROMPT,
-            )
+            self.client = AsyncGroq(api_key=settings.groq_api_key)
             self._initialized = True
 
     async def chat(
@@ -44,11 +41,11 @@ class GeminiService:
         recent_history: list[dict] | None = None,
     ) -> str:
         """
-        Send a message to Gemini with optional recent chat history for context.
+        Send a message to Groq with optional recent chat history for context.
 
         Args:
             message: The user's current message
-            recent_history: Last N messages as [{"role": "user"/"model", "parts": ["..."]}]
+            recent_history: Last N messages as [{"role": "user"/"assistant", "content": "..."}]
 
         Returns:
             The AI response as a string
@@ -56,27 +53,34 @@ class GeminiService:
         self._ensure_initialized()
 
         # Build conversation context from recent history
-        history = []
+        messages = []
         if recent_history:
             for msg in recent_history:
-                history.append({
-                    "role": msg["role"],
-                    "parts": [msg["content"]],
+                # Map role "model" to "assistant" since Groq expects "assistant"
+                role = "assistant" if msg["role"] == "model" else msg["role"]
+                messages.append({
+                    "role": role,
+                    "content": msg["content"],
                 })
+        
+        messages.append({
+            "role": "user",
+            "content": message
+        })
 
         try:
-            chat_session = self.model.start_chat(history=history)
-            response = chat_session.send_message(message)
-            return response.text
+            chat_completion = await self.client.chat.completions.create(
+                messages=messages,
+                model=settings.groq_model,
+            )
+            return chat_completion.choices[0].message.content
         except Exception as e:
             error_msg = str(e)
             if "quota" in error_msg.lower() or "rate" in error_msg.lower():
-                return "⚠️ API rate limit reached. Your project might not have free tier access (limit: 0). Please check your Google Cloud billing or try a different API key."
-            elif "safety" in error_msg.lower():
-                return "⚠️ The response was blocked by safety filters. Please rephrase your question."
+                return "⚠️ API rate limit reached. Please check your Groq billing or try a different API key."
             else:
                 return f"⚠️ AI service error: {error_msg}"
 
 
 # Singleton service instance
-gemini_service = GeminiService()
+groq_service = GroqService()

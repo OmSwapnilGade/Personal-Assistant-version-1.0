@@ -7,9 +7,9 @@ class Settings(BaseSettings):
     mongodb_uri: str = "mongodb://localhost:27017"
     database_name: str = "student_workspace"
 
-    # Gemini AI
-    gemini_api_key: str = ""
-    gemini_model: str = "gemini-2.0-flash"
+    # Groq AI
+    groq_api_key: str = ""
+    groq_model: str = "llama-3.3-70b-versatile"
 
     # App
     app_name: str = "Student AI Workspace"

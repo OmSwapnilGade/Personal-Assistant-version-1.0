@@ -13,7 +13,7 @@ A unified AI-powered productivity dashboard for student developers. Combines tas
 | **📋 Task Manager** | CRUD with priority, status, tags, deadlines, filters | ❌ |
 | **📅 Timetable** | Weekly schedule, day views, class types | ❌ |
 | **📊 Attendance** | Per-subject tracking, 75% warnings, mark present/absent | ❌ |
-| **🤖 AI Chat** | Gemini-powered study/coding/debug assistant with markdown | ✅ |
+| **🤖 AI Chat** | Groq-powered study/coding/debug assistant with markdown | ✅ |
 | **🔗 Quick Links** | Categorized bookmarks (CP, Dev, College) with search | ❌ |
 | **🔔 Reminders** | Deadline alerts with browser notifications | ❌ |
 | **🎤 Voice Input** | Push-to-talk browser speech recognition | ❌ |
@@ -24,7 +24,7 @@ A unified AI-powered productivity dashboard for student developers. Combines tas
 - **Frontend**: React 19 + Tailwind CSS v4 + Vite
 - **Backend**: FastAPI (Python) + Motor (async MongoDB)
 - **Database**: MongoDB (local or Atlas free tier)
-- **AI**: Google Gemini API (free tier)
+- **AI**: Google Groq API (free tier)
 - **Voice**: Web Speech API (browser-native)
 
 ---
@@ -35,7 +35,7 @@ A unified AI-powered productivity dashboard for student developers. Combines tas
 - **Node.js** 18+ and **npm**
 - **Python** 3.10+
 - **MongoDB** (local install or [Atlas free tier](https://www.mongodb.com/atlas))
-- **Gemini API Key** ([Get free](https://aistudio.google.com/apikey))
+- **Groq API Key** ([Get free](https://aistudio.google.com/apikey))
 
 ### 1. Clone & Setup Backend
 
@@ -52,13 +52,13 @@ venv\Scripts\activate
 pip install -r requirements.txt
 
 # Configure environment
-# Edit .env with your MongoDB URI and Gemini API key
+# Edit .env with your MongoDB URI and Groq API key
 ```
 
 Edit `backend/.env`:
 ```env
 MONGODB_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/student_workspace
-GEMINI_API_KEY=your_key_here
+GROQ_API_KEY=your_key_here
 ```
 
 ### 2. Start Backend
@@ -97,10 +97,10 @@ The command bar (Ctrl+K) intelligently routes your input:
 | "show my tasks" | Task Manager → list | ❌ |
 | "classes today" | Timetable → today view | ❌ |
 | "mark present DSA" | Attendance → mark | ❌ |
-| "explain binary search" | AI Chat → Gemini | ✅ |
-| "debug this Python error" | AI Chat → Gemini | ✅ |
+| "explain binary search" | AI Chat → Groq | ✅ |
+| "debug this Python error" | AI Chat → Groq | ✅ |
 
-**Rule**: Only unmatched queries go to Gemini. This keeps API usage minimal.
+**Rule**: Only unmatched queries go to Groq. This keeps API usage minimal.
 
 ---
 
@@ -114,7 +114,7 @@ The command bar (Ctrl+K) intelligently routes your input:
 │   │   ├── database.py       # MongoDB connection
 │   │   ├── models/           # Pydantic schemas
 │   │   ├── routes/           # API endpoints
-│   │   ├── services/         # Command router + Gemini
+│   │   ├── services/         # Command router + Groq
 │   │   └── utils/            # Helpers
 │   ├── requirements.txt
 │   └── .env

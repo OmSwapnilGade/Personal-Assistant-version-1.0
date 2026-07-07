@@ -2,12 +2,12 @@ from fastapi import APIRouter, HTTPException, Query
 from typing import Optional
 from ..database import get_db
 from ..models.chat import ChatMessageCreate, ChatMessageResponse
-from ..services.gemini_service import gemini_service
+from ..services.groq_service import groq_service
 from ..utils.helpers import serialize_doc, to_object_id, now_utc
 
 router = APIRouter()
 
-# Maximum number of recent messages to send as context to Gemini
+# Maximum number of recent messages to send as context to Groq
 MAX_CONTEXT_MESSAGES = 10  # 5 pairs of user+assistant
 
 
@@ -43,7 +43,7 @@ async def send_message(message: ChatMessageCreate):
     recent_messages.reverse()
 
     # Get AI response
-    ai_response = await gemini_service.chat(
+    ai_response = await groq_service.chat(
         message=message.content,
         recent_history=recent_messages[:-1],  # Exclude current message (already sent)
     )

@@ -110,7 +110,7 @@ export default function ChatPage() {
           <h1 className="text-2xl font-bold flex items-center gap-3">
             <MessageSquare className="w-7 h-7 text-purple-400" /> AI Assistant
           </h1>
-          <p className="text-[var(--color-text-muted)] text-sm mt-1">Powered by Gemini • Study, Code, Debug</p>
+          <p className="text-[var(--color-text-muted)] text-sm mt-1">Powered by Groq • Study, Code, Debug</p>
         </div>
         <button onClick={clearHistory} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-[var(--color-text-muted)] hover:text-red-400 hover:bg-red-500/10 transition-colors">
           <Trash2 className="w-4 h-4" /> Clear
